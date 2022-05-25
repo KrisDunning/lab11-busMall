@@ -22,6 +22,12 @@ function Product(productName, imageFileExtension = 'jpg') {
 
 //+++++++++Initialize Products++++++++++++++++//
 function createProducts() {
+let retrievedProducts= localStorage.getItem('products');
+let parsedProducts=JSON.parse(retrievedProducts);
+
+if(retrievedProducts){
+      productArray=parsedProducts;
+}else{
   new Product('bag');
   new Product('banana');
   new Product('bathroom');
@@ -41,8 +47,10 @@ function createProducts() {
   new Product('unicorn');
   new Product('water-can');
   new Product('wine-glass');
+  }
 }
 
+//++++++++ Random Number Gen. from 0 to max value passed ++++++++++++//
 function rndNumber(max) {
   return Math.floor(Math.random() * max);
 }
@@ -51,11 +59,13 @@ function rndNumber(max) {
 function chooseUniqueIndex() {
   let currentThreeIndex = [];
   let possIndex = [];
+  let splicedArray=[];
   for (let i = 0; i < productArray.length; i++) {
     possIndex.push(i);
+    
   }
   while (currentThreeIndex.length < 3) {
-    let splicedArray = possIndex.splice(rndNumber(possIndex.length), 1);
+    splicedArray = possIndex.splice(rndNumber(possIndex.length), 1);;
     currentThreeIndex.push(splicedArray[0]);
   }
   return currentThreeIndex;
@@ -65,25 +75,23 @@ function chooseUniqueIndex() {
 
 function setProductsToRender(index) {
   let products = []
-  // console.log("setting these 3 index: ", index);
   index.forEach(i => {
     products.push(productArray[i]);
-    console.log (productArray[i].name);
   });
-
   return products;
 }
 
 
 //++++++++++++++ Render Images of Products +++++++++++++//
 function renderProducts(productsToRender) {
-  productsToRender.forEach(element => { element.views++ });
+  
+  productsToRender.forEach(prod=> {prod.views++});
   imageOne.src = productsToRender[0].image;
   imageOne.alt = productsToRender[0].name;
   imageTwo.src = productsToRender[1].image;
   imageTwo.alt = productsToRender[1].name;
   imageThree.src = productsToRender[2].image;
-  imageThree.alt = productsToRender[0].name;
+  imageThree.alt = productsToRender[2].name;
 }
 
 //+++++++++++ Voting Complete +++++++++++++++++//
@@ -92,7 +100,8 @@ function votingComplete() {
   resultsBtn.addEventListener('click', renderChart);
   imageSection.style.display = 'none';
   resultsSection.style.display = 'block';
-
+  let stringifiedProducts= JSON.stringify(productArray);
+  localStorage.setItem('products',stringifiedProducts);
 }
 
 //+++++++++++++ Chart.js Chart Creation +++++++++++++++//
@@ -180,13 +189,10 @@ function handleClick(event) {
     do {
       keepLoopingFlag = false;
       uniqueThreeIndex = chooseUniqueIndex();
-      // console.table("uniqueThreeIndex: ", uniqueThreeIndex);
-      // console.table("prev. index: ", prevThreeIndex);
+
       for (let i = 0; i < uniqueThreeIndex.length; i++) {
-        // console.table(`uniquethree@i: ${uniqueThreeIndex[i]}`);
         if (prevThreeIndex.includes(uniqueThreeIndex[i])) {
           keepLoopingFlag = true;
-          console.log("REPAT INDEX FOUND. KEEP LOOPING");
         }
       };
     } while (keepLoopingFlag)
