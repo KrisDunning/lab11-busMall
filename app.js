@@ -14,7 +14,7 @@ let resultsList = document.getElementById('results-list');
 //+++++++++++Object Contructor++++++++++++++++//
 function Product(productName, imageFileExtension = 'jpg') {
   this.name = productName;
-  this.image = `/img/${productName}.${imageFileExtension}`;
+  this.image = `img/${productName}.${imageFileExtension}`;
   this.views = 0;
   this.votes = 0;
   productArray.push(this);
