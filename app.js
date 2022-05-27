@@ -6,8 +6,7 @@ let votingCountTotal = 25;
 let imageSection = document.getElementById('img-section');
 let imageOne = document.getElementById('img-one');
 let imageTwo = document.getElementById('img-two');
-let imageThree = document.getElementById('img-three');
-let resultsSection = document.getElementById('results-section');
+let imageThree = document.getElementById('img-three');;
 let resultsBtn = document.getElementById('results-btn');
 let resultsList = document.getElementById('results-list');
 
@@ -99,7 +98,6 @@ function votingComplete() {
   imageSection.removeEventListener('click', handleClick);
   resultsBtn.addEventListener('click', renderChart);
   imageSection.style.display = 'none';
-  resultsSection.style.display = 'block';
   let stringifiedProducts= JSON.stringify(productArray);
   localStorage.setItem('products',stringifiedProducts);
 }
@@ -204,22 +202,12 @@ function handleClick(event) {
   }
 }
 
-function handleResults(event) {
-  productArray.forEach(element => {
-    let liElem = document.createElement('li');
-    liElem.textContent = `${element.name} was viewed ${element.views} and voted for ${element.votes} times.`;
-    resultsList.appendChild(liElem);
-  });
-  resultsBtn.removeEventListener('click', handleResults);
-}
-
 //++++++++++++++++++ Event Listeners +++++++++++++++++//
 imageSection.addEventListener('click', handleClick);
 
 
 
 //+++++++++++++++ Call starting page functions ++++++++++++++++//
-resultsSection.style.display = 'none';
 createProducts();
 let uniqueThreeIndex = chooseUniqueIndex();
 let prevThreeIndex = uniqueThreeIndex;
